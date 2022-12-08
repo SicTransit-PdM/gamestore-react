@@ -55,7 +55,7 @@ export const products = [
     price: 8999,
     category: categories[2],
     descr: "FIFA 23 nos acerca a The World's Game con la tecnología HyperMotion2 que ofrece una experiencia de juego aún más realista, la FIFA World Cup™ masculina y femenina disponibles durante la temporada, clubes femeninos, función de juego cruzado y mucho más.",
-    img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nrSaXF39nDfAAeLKksRCyvSzI2a.jpg",
+    img: "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/51e0f86b7cb74096e922bd52653bd235.png",
     thumb: "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/51e0f86b7cb74096e922bd52653bd235.png"
 },
 {
