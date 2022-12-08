@@ -1,19 +1,29 @@
 import Layout from '../../components/Layout';
 import Navbar from '../../components/Navbar';
-import ItemListContainer from '../../components/ItemListContainer'
 import CartWidget from '../../components/CartWidget';
-import {useState} from 'react'
+import ItemListContainer from '../../components/ItemListContainer'
+import ItemDetailContainer from '../../components/ItemDetailContainer';
+import { menus , products, categories } from '../../mock'
+import {useState, useEffect} from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const Initial = () => {
-    const Menus = ['Inicio', 'Productos', 'Contacto'];
-    const Saludo = 'Bienvenidos';
-    const [itemCount, setItemCount] = useState(0)
-    const desc = 'Los mejores juegos a precios competitivos, consulta nuestro catálogo y encontrá el juego que buscabas y más.'
+    const [user, setUser] = useState('')
+    const [itemCount, setItemCount] = useState()
+    const greeting = user ?  `Bienvenido, ${user.name}` : '¡Bienvenido!';
 
     return(
         <Layout>
-            <Navbar menus={Menus}><CartWidget itemCount={itemCount} /></Navbar>
-            <ItemListContainer greeting={Saludo} desc={desc}/>
+            <BrowserRouter>
+                <Navbar menus={menus} ><CartWidget itemCount={itemCount} /></Navbar>
+                <Routes>
+                    <Route exact path='/' element={<ItemListContainer greeting={greeting} />} />
+                    <Route exact path='/catalogo' element={<ItemListContainer greeting={greeting} />} />
+                    <Route exact path='/categoria/:id' element={<ItemListContainer greeting={greeting} />} />
+                    <Route exact path='/item/:id' element={<ItemDetailContainer/>} />
+                    <Route exact path='/contacto' element={<ItemListContainer greeting={greeting} />} />
+                </Routes>
+            </BrowserRouter>
         </Layout>
     )
 }

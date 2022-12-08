@@ -4,4 +4,12 @@
     background-repeat: no-repeat; 
     background-size: cover;
     background-position: center;
+    div{
+        background-color: rgba(22, 11, 30, 0.661);
+        border-radius: 5%;
+        padding-bottom: 16px;
+        div{
+            background-color: rgba(0, 0, 0, 0);
+        }
+    }
 }

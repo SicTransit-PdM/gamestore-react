@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const Navbar = ({menus, children}) => {
     return(
         <div className='navbar navbar-expand-lg bg-dark navbar-dark py-3'>
             <div className='container'>
-                <a className="navbar-brand text-info fs-4 fw-bold order-lg-0" href="#">GameStore</a>
+                <Link className="navbar-brand text-info fs-4 fw-bold order-lg-0" to={'/'}>GameStore</Link>
                 <button
 					className="navbar-toggler"
 					type="button"
@@ -16,16 +17,17 @@ const Navbar = ({menus, children}) => {
                 <div className="collapse navbar-collapse order-lg-1" id="navmenu">
                     <ul className="navbar-nav ms-auto">
                     {
-                        menus.map((menu) => {
-                            return <li key={menu} className="nav-item">
-                                    <a href="#" className="nav-link" id="nav-link">{menu}</a>
+                        menus.map((menu, index) => {
+                            const newkey = `menu-${menu.title}-${index}`
+                            return <li key={newkey} className="nav-item">
+                                    <Link to={menu.href} className="nav-link" id="nav-link">{menu.title}</Link>
                                 </li>
                         })
                     }
                     </ul>
                 </div>
             </div>
-            <div className='cart'>
+            <div>
                 {children}
             </div>
         </div>
