@@ -138,5 +138,23 @@ export const products = [
     descr: "Ambientado en el apocalipsis zombi, Left 4 Dead 2 (L4D2) es la esperadísima secuela del galardonado Left 4 Dead, el juego cooperativo número 1 de 2008. Este FPS cooperativo de acción y terror os llevará a ti y a tus amigos por las ciudades, pantanos y cementerios del Sur Profundo, desde Savannah hasta Nueva Orleans, a lo largo de cinco extensas campañas",
     img: "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/248fc45afe6980b6b520b592ff9de696.png",
     thumb: "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/248fc45afe6980b6b520b592ff9de696.png"
+},
+{
+    id: 10,
+    title: 'The Elder Scrolls V: Skyrim',
+    price: 1999,
+    category: categories[0],
+    descr: 'Skyrim Special Edition, ganador de más de 200 premios al "Juego del año", da vida a la fantasía épica con un nivel de detalle asombroso. La Special Edition incluye el juego aclamado por la crítica y los complementos, así como nuevas características: gráficos y efectos renovados, rayos crepusculares volumétricos, reflejos en tiempo real, profundidad de campo dinámica y muchas más. Además, Skyrim Special Edition lleva todo el poder de los mods a PC y Xbox One: nuevas misiones, entornos, personajes, diálogos, armaduras y armas, entre otras muchas cosas. ¡Con los mods, la experiencia no tiene límites!',
+    img: 'https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/81eb8c3166ba84d9de66eb843738134b.png',
+    thumb: 'https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/81eb8c3166ba84d9de66eb843738134b.png',
+},
+{
+    id: 11,
+    title: 'Victoria 3',
+    price: 2499,
+    category: categories[4],
+    descr: 'Paradox Development Studio te invita a formar tu sociedad ideal en el tumulto del siglo XIX, con todas sus emociones y transformaciones. Equilibra los intereses contrapuestos de tu sociedad y hazte un hueco en Victoria 3, uno de los juegos más esperados de la historia de Paradox. Lidera a docenas de naciones de todo el mundo desde 1836 hasta 1936. Agrícola o industrial, tradicional o radical, pacífica o expansionista... Tú eliges.',
+    img: 'https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/5aa152afe32e9c9ad69dc6f137773bfb.png',
+    thumb: 'https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/5aa152afe32e9c9ad69dc6f137773bfb.png',
 }
 ]

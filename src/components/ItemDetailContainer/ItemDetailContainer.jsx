@@ -1,11 +1,22 @@
+import { useState, useEffect } from "react";
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
 import ItemDetail from "../ItemDetail/ItemDetail";
-import { products } from '../../mock'
-import { useParams } from 'react-router-dom'
+
 
 const ItemDetailContainer = () => {
-
     const { id } = useParams()
-    const item = products.find((item) => item.id == id)
+    const [item, setItem] = useState()
+
+    useEffect(() => {
+        const db = getFirestore();
+        const itemDoc = doc(db, 'item', id)
+        getDoc(itemDoc).then((result) => {
+            if(result.exists()){
+                setItem({...result.data()})
+            }
+        })
+    },[])
 
     //const label = `IDC-${item.id}`
     
@@ -15,7 +26,11 @@ const ItemDetailContainer = () => {
         //         <ItemDetail item={item}/>
         //     </div>
         // </div>
-        <ItemDetail item={item}/>
+        item 
+        ? <ItemDetail item={item}/> 
+        : <div className="cargando d-flex justify-content-center align-items-center m-5">
+            <h1>Cargando...</h1>
+        </div>
     )
 }
 
