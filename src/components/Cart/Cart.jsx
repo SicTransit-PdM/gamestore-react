@@ -6,37 +6,35 @@ import CartItem from '../CartItem'
 
 const Cart = () =>{
 
-    const { count, cart } = useContext(CartContext)
-	const totalPrice = cart.length > 0 ? cart.map((item) => 0 + item.price) : 0
+    const { count, cart, total, clear } = useContext(CartContext)
+	// const totalPrice = cart.length > 0 ? cart.map((item) => 0 + item.price) : 0
     function verCarrito(){
-        console.log('Carrito Actualizado', cart)
+        console.log('state cart', cart)
+        console.log('state count', count)
+        console.log('state total', total)
     }
+
+	function handlerClear(){
+		clear()
+	}
+
     return(
         <div className="container w-50 dropdown-menu dropdown-menu-dark bg-dark dropdown-menu-end" aria-labelledby="btn-carrito">
-            <button onClick={() => verCarrito()}>Ver carrito</button>
-		{ 
-		count ? 
+            <button className='btn btn-info rounded-pill' onClick={() => verCarrito()}>Ver carrito</button>
+			{ 
+			count ? 
 			<div className="d-flex justify-content-between align-items-center">
 				<div className="mt-2 ms-5">
 					<span className="text-muted">Tu carrito</span>
 					<p>{count} items agregados</p>
 				</div>
 				<div className="d-flex align-items-center">
-					<span className="me-4 lead">{peso.format(totalPrice)}</span>
-					<Link to='/checkout' ><button className="btn btn-success rounded-pill me-5 px-3">Comprar</button></Link>
+					<span className="me-4 lead">{peso.format(total)}</span>
+					<Link to='/checkout' ><button className="btn btn-sm btn-success rounded-pill me-3 px-3">Comprar</button></Link>
+					<button className='btn btn-sm btn-warning rounded-pill me-3 px-4' onClick={() => handlerClear()} >Vaciar</button>
 				</div>
-                {
-                    cart && cart.map((item, i) => {
-                        console.log('Item en carrito', item)
-                        const key = 'key-'+{i}
-                        return(
-                            <h1 key={key}>asd</h1>
-                            // <CartItem key={item.id} item={item} />
-                        )
-                    })
-                }
 			</div>
-		: 
+			: 
 			<div className="d-flex justify-content-between align-items-center">
 				<div className="mt-2 ms-5">
 					<span className="text-muted">Tu carrito</span>
@@ -44,10 +42,20 @@ const Cart = () =>{
 				</div>
 				<div className="d-flex align-items-center">
 					<span className="me-4 lead"></span>
-					<button className="btn btn-warning rounded-pill me-5 px-3 disabled">Carrito Vacío</button>
+					{/* <button className="btn btn-warning rounded-pill me-5 px-3 disabled">Carrito Vacío</button> */}
 				</div>
 			</div>
-		}
+			}
+			<div className="card mb-1 mx-lg-1 border border-primary bg-dark">
+				{
+					cart && cart.map((item, i) => {
+						const newkey = `key-${item.title}`
+						return(
+							<CartItem key={newkey} item={item} />
+						)
+					})
+				}
+			</div>
 		</div>
     )
 }

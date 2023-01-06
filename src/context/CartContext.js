@@ -1,33 +1,48 @@
-import { createContext, useReducer } from 'react'
-import { CartReducer } from './CartReducer' 
+import { createContext, useState } from 'react'
 
 export const CartContext = createContext(null)
 
-const initialState = {
-    count: 0,
-    item: {},
-    cart: [],
-    total: 0,
-}
 
 export const CartContextProvider = ({children}) => {
-    const [state, dispatch] = useReducer(CartReducer, initialState)
+    const [ cart, setCart] = useState([])
+    const [ count, setCount ] = useState(0)
+    const [ total, setTotal ] = useState(0)
 
-    function addCount(count, item){
-        dispatch({
-            type: 'ADD_ITEM',
-            payload: {count, item}
-        })
+    function addToCart(item){
+        if(cart.includes(item) == false){
+            setCart([...cart, item])
+            setCount(count + 1)
+            setTotal( total + item.price)
+        }
+    }
+    function removeItem(item){
+        if(cart.some(p => p.title == item.title)){
+            console.log('Removed', item.title)
+            let itemIndex = cart.findIndex(p => p.title == item.title)
+            const newCart = [...cart]
+            newCart.splice(itemIndex, 1)
+            setCart(newCart)
+            setCount(count - 1)
+            setTotal(total - item.price)
+        }
+    }
+
+    function clear(){
+        setCart([])
+        setCount(0)
+        setTotal(0)
     }
 
     return(
         <CartContext.Provider 
         value={{
-            count: state.count,
-            item: state.item,
-            cart: state.cart,
-            total: state.total,
-            addCount,
+            cart,
+            count,
+            total,
+            setCart,
+            addToCart,
+            removeItem,
+            clear,
         }}
         >
             {children}

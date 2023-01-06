@@ -28,8 +28,8 @@ const ItemDetailContainer = () => {
         // </div>
         item 
         ? <ItemDetail item={item}/> 
-        : <div className="cargando d-flex justify-content-center align-items-center m-5">
-            <h1>Cargando...</h1>
+        : <div className="cargando d-flex justify-content-center align-items-center m-5 p-5">
+            <h1 className="text-warning">Cargando...</h1>
         </div>
     )
 }
