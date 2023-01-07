@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import { doc, addDoc, collection, getFirestore, writeBatch, setDoc } from 'firebase/firestore'
-import { Link } from "react-router-dom"
+import { addDoc, collection, getFirestore } from 'firebase/firestore'
+import { useNavigate } from "react-router-dom"
 import { CartContext } from "../../context/CartContext"
 import { peso } from "../../mock"
 import swal from "sweetalert"
@@ -9,7 +9,7 @@ import { useState } from "react"
 
 const Checkout = () =>{
 
-    const { cart, total, count, clear } = useContext(CartContext)
+    const { cart, total, clear } = useContext(CartContext)
 
     const [buyer, setBuyer] = useState( {
         firstname: '',
@@ -39,9 +39,31 @@ const Checkout = () =>{
         const db = getFirestore();
         const ordersCollection = collection(db, 'orders')
         addDoc(ordersCollection, order).then(({id}) => {
-            swal("Compra Finalizada!", `Su orden de compra fue enviada exitosamente. ID de la orden: ${id}`, "success");
+            swal("Compra Finalizada!", `Su orden de compra fue enviada exitosamente.\nID de orden: ${id}`, "success");
+            console.log('Order sent:', order)
             clear()
+            toIndex()
         })
+    }
+
+    function handleSubmit(){
+        swal({
+            title: "¿Estás seguro?",
+            text: "Una vez enviada, la orden no podrá ser modificada",
+            icon: "info",
+            buttons: true,
+            dangerMode: false,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                sendOrder()
+            }
+        });
+    }
+
+    let navigate = useNavigate();
+    function toIndex(){
+        navigate('/');
     }
 
     // const updateOrder = () =>{
@@ -101,7 +123,7 @@ const Checkout = () =>{
                             <input className="form-control bg-primary bg-gradient" placeholder="Ej: ejemplo@email.com" name="email" type="email" onChange={(e) => handleChange(e)} />
                         </div>
                         <div className="mt-5 d-flex justify-content-center">
-                            <Link to='/' ><button className="btn btn-xl btn-success rounded-pill me-3 px-3" onClick={() => sendOrder()}>Crear Orden: {peso.format(total)}</button></Link>
+                            <button className="btn btn-xl btn-success rounded-pill me-3 px-3" onClick={() => handleSubmit()}>Crear Orden: {peso.format(total)}</button>
                         </div>
                     </div>
                 </div>
