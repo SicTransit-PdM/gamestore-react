@@ -10,6 +10,7 @@ export const CartContextProvider = ({children}) => {
 
     function addToCart(item){
         if(cart.includes(item) == false){
+            console.log('Added:', item.title)
             setCart([...cart, item])
             setCount(count + 1)
             setTotal( total + item.price)
@@ -17,7 +18,7 @@ export const CartContextProvider = ({children}) => {
     }
     function removeItem(item){
         if(cart.some(p => p.title == item.title)){
-            console.log('Removed', item.title)
+            console.log('Removed:', item.title)
             let itemIndex = cart.findIndex(p => p.title == item.title)
             const newCart = [...cart]
             newCart.splice(itemIndex, 1)

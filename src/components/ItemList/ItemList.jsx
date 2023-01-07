@@ -7,7 +7,6 @@ const ItemList = ({itemlist}) => {
         ?   <div className='ItemList justify-content-center row g-2 my-4'>
                 {
                     itemlist && itemlist.map((item) => {
-                        // const newkey = `item-${item.id}-${item.title}`
                         return <Item key={item.id}  item={item}></Item>
                     })
                 }

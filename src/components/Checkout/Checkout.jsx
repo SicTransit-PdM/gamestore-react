@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { doc, addDoc, collection, getFirestore, writeBatch } from 'firebase/firestore'
+import { doc, addDoc, collection, getFirestore, writeBatch, setDoc } from 'firebase/firestore'
 import { Link } from "react-router-dom"
 import { CartContext } from "../../context/CartContext"
 import { peso } from "../../mock"
@@ -10,39 +10,39 @@ import { useState } from "react"
 const Checkout = () =>{
 
     const { cart, total, count, clear } = useContext(CartContext)
-    const [username, setUsername] = useState('')
-    const [address, setAddress] = useState('')
-    const [email, setEmail] = useState('')
 
-    const buyer = {
-        username: username,
-        address: address,
-        email: email,
-        items: cart
+    const [buyer, setBuyer] = useState( {
+        firstname: '',
+        lastname: '',
+        address: '',
+        phone: 0,
+        email: '',
+    })
+
+    function handleChange(e){
+        setBuyer((prev) =>{
+            const key = e.target.name
+            let value = e.target.value
+
+            value = parseInt(value, 10) || value
+
+            return{...prev, [key]: value}
+        })
     }
 
-    function handlerClear(){
-        clear()
+    const sendOrder = ()=>{
+        const order = { 
+            buyer: buyer, 
+            items: cart.map(item => ({id: item.id, name: item.title, price: item.price})),
+            total: total
+        }
+        const db = getFirestore();
+        const ordersCollection = collection(db, 'orders')
+        addDoc(ordersCollection, order).then(({id}) => {
+            swal("Compra Finalizada!", `Su orden de compra fue enviada exitosamente. ID de la orden: ${id}`, "success");
+            clear()
+        })
     }
-
-    // const sendOrder = ()=>{
-    //     const order = {
-    //         buyer:{
-    //             name: 'paulo',
-    //             address: 'calle sin nombre 123',
-    //             email: 'test@email.com'
-    //         },
-    //         items:[{
-    //             name: 'GTA V',
-    //             price: 2500,
-    //         }],
-    //         total: 2500
-    //     };
-
-    //     const db = getFirestore();
-    //     const orderCollection = collection(db, 'orders')
-    //     addDoc = (orderCollection, order).then(({id}) => console.log(id))
-    // }
 
     // const updateOrder = () =>{
     //     const db = getFirestore()
@@ -56,15 +56,6 @@ const Checkout = () =>{
     //     batch.update(orderDoc, {total:150}).then((res) => alert('Listo'));
     //     batch.commit()
     // }
-
-    const finalizarCompra = () =>{
-        swal("Compra finalizada!", "Su orden de compra fue enviada exitosamente", "success");
-        clear()
-    }
-
-    const namelog = () =>{
-        console.log('nombre', username.value)
-    }
 
     return(
         <div className="my-5 p-5 bg-dark bg-gradient">
@@ -82,31 +73,39 @@ const Checkout = () =>{
                 <h3 className="mt-2 me-3 text-end fw-bold"> TOTAL : <strong className="ms-4 text-warning">{peso.format(total)}</strong></h3>
             </div>
             <div className="container border border-1 border-info p-5">
-            <div className="d-flex flex-column align-items-center">
-                <h2 className="mb-5">Datos Personales:</h2>
-                <div className="form ms-4 col-md-5">
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="">Nombre y Apellido</label>
-                        <input className="form-control bg-primary bg-gradient" placeholder="Ej: Juan Perez" type="text" onChange={(e) => setUsername(e.target.value)} />
-                        <button className="btn btn-primary rounded-pill" onClick={() => namelog()}></button>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="">Dirección</label>
-                        <input className="form-control bg-primary bg-gradient" placeholder="Ej: Calle Falsa 123" type="text" onChange={(e) => setAddress(e.target.value)} />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="">Email</label>
-                        <input className="form-control bg-primary bg-gradient" placeholder="Ej: ejemplo@email.com" type="email" onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-                    <div className="mt-5 d-flex justify-content-center">
-                        <Link to='/' ><button type="submit" className="btn btn-xl btn-info rounded-pill me-3 px-3" onSubmit={() => finalizarCompra()}>Crear Orden: {peso.format(total)}</button></Link>
+                <div className="">
+                    <h2 className="mb-5 text-center">Datos Personales:</h2>
+                    <div className="form d-flex flex-column align-items-center">
+                        <div className="mb-3 row w-75">
+                            <div className="col-6">
+                                <label className="form-label px-2" htmlFor="">Nombre:</label>
+                                <input className="form-control bg-primary bg-gradient" name="firstname" type="text" onChange={(e) => handleChange(e)} />
+                            </div>
+                            <div className="col-6">
+                                <label className="form-label px-2" htmlFor="">Apellido:</label>
+                                <input className="form-control bg-primary bg-gradient" name="lastname" type="text" onChange={(e) => handleChange(e)} />
+                            </div>
+                        </div>
+                        <div className="mb-3 row w-75">
+                            <div className="col-6">
+                                <label className="form-label px-2" htmlFor="">Dirección:</label>
+                                <input className="form-control bg-primary bg-gradient" placeholder="Ej: Calle Falsa 123" name="address" type="text" onChange={(e) => handleChange(e)} />
+                            </div>
+                            <div className="col-6">
+                                <label className="form-label px-2" htmlFor="">Número de teléfono:</label>
+                                <input className="form-control bg-primary bg-gradient" name="phone" type="text" onChange={(e) => handleChange(e)} />
+                            </div>
+                        </div>
+                        <div className="mb-3 row w-75">
+                            <label className="form-label px-2" htmlFor="">Email</label>
+                            <input className="form-control bg-primary bg-gradient" placeholder="Ej: ejemplo@email.com" name="email" type="email" onChange={(e) => handleChange(e)} />
+                        </div>
+                        <div className="mt-5 d-flex justify-content-center">
+                            <Link to='/' ><button className="btn btn-xl btn-success rounded-pill me-3 px-3" onClick={() => sendOrder()}>Crear Orden: {peso.format(total)}</button></Link>
+                        </div>
                     </div>
                 </div>
-            </div>
                 {/* <div>
-                    <button className="btn" onClick={()=>sendOrder()}>Generar Orden</button>
-                </div>
-                <div>
                     <button className="btn" onClick={()=>updateOrder()}>Actualizar Orden</button>
                 </div>
                 <div>

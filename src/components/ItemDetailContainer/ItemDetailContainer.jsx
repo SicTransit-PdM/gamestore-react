@@ -13,7 +13,7 @@ const ItemDetailContainer = () => {
         const itemDoc = doc(db, 'item', id)
         getDoc(itemDoc).then((result) => {
             if(result.exists()){
-                setItem({...result.data()})
+                setItem({id:id, ...result.data()})
             }
         })
     },[])
@@ -29,7 +29,7 @@ const ItemDetailContainer = () => {
         item 
         ? <ItemDetail item={item}/> 
         : <div className="cargando d-flex justify-content-center align-items-center m-5 p-5">
-            <h1 className="text-warning">Cargando...</h1>
+            <h1 className="text-warning fw-bold">Cargando...</h1>
         </div>
     )
 }

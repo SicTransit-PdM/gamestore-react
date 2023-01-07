@@ -11,9 +11,8 @@ const ItemListContainer = ({greeting}) => {
     const [items, setItems] = useState([])
     const [itemcopy, setItemCopy] = useState(items)
     const [categories, setCategories] = useState([])
-    
     const { id } = useParams()
-
+    
     const FilterCategory = () => {
         if (id && itemcopy){
         const newProducts = itemcopy.filter((item) => item.category == id);
@@ -22,13 +21,12 @@ const ItemListContainer = ({greeting}) => {
         return itemcopy;
         }
     };
-
+    
     useEffect(() => {
         const filter = FilterCategory()
         setItems(filter)
     }, [id])
-
-
+    
     useEffect(() => {
         const db = getFirestore();
         const itemCollection = collection(db, 'item')
@@ -45,7 +43,7 @@ const ItemListContainer = ({greeting}) => {
             setCategories(result.docs.map((doc) => ({ id: doc.id, ...doc.data()})));
         })
     },[])
-
+    
     return(
 		<div>
             <div className="ItemListContainer bg-primary text-success p-5 text-center bg-image">

@@ -9,16 +9,15 @@ const CartItem = ({item}) =>{
     const handlerRemoveItem = (item) =>{
         removeItem(item)
     }
+
     return(
             <div className="row g-0 border border-1 border-primary">
-                <div className="col-md-4 px-md-0">
-                    <img src={item.img} height="90" width="175" className="ms-1 rounded-start" alt="img" />
+                <div className="col-md-3 px-md-0">
+                    <img src={item.img} height="95" width="120" className="rounded-start border-end border-primary" alt="img" />
                 </div>
                 <div className="col-md-8">
-                    <div className="card-body text-light">
-                        <Link to='/item/'>
-                            <h5 className="card-title text-warning fw-bold">{item.title}</h5>
-                        </Link>
+                    <div className="card-body text-light d-flex flex-column justify-content-start align-items-start">
+                        <Link to={`/item/${item.id}`}><h5 className="card-title text-warning fw-bold">{item.title}</h5></Link>
                         <button type="button" className="btn btn-link btn-sm" onClick={() => handlerRemoveItem(item)}>Quitar</button>
                     </div>
                 </div>

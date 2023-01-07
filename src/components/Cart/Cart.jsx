@@ -20,7 +20,6 @@ const Cart = () =>{
 
     return(
         <div className="container w-50 dropdown-menu dropdown-menu-dark bg-dark dropdown-menu-end" aria-labelledby="btn-carrito">
-            <button className='btn btn-info rounded-pill' onClick={() => verCarrito()}>Ver carrito</button>
 			{ 
 			count ? 
 			<div className="d-flex justify-content-between align-items-center">
@@ -42,7 +41,6 @@ const Cart = () =>{
 				</div>
 				<div className="d-flex align-items-center">
 					<span className="me-4 lead"></span>
-					{/* <button className="btn btn-warning rounded-pill me-5 px-3 disabled">Carrito Vacío</button> */}
 				</div>
 			</div>
 			}
