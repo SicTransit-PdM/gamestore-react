@@ -7,12 +7,6 @@ import CartItem from '../CartItem'
 const Cart = () =>{
 
     const { count, cart, total, clear } = useContext(CartContext)
-	// const totalPrice = cart.length > 0 ? cart.map((item) => 0 + item.price) : 0
-    function verCarrito(){
-        console.log('state cart', cart)
-        console.log('state count', count)
-        console.log('state total', total)
-    }
 
 	function handlerClear(){
 		clear()
